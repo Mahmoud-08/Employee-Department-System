@@ -12,48 +12,36 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Age)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Department)
-            </th>
+        @*     <th>ID</th> *@
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Age</th>
+            <th>Image</th>
+            <th>Department</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Age)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Image)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Department.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var employee in Model)
+        {
+            <tr>
+               @*  <td>@employee.ID</td> *@
+                <td>@employee.Name</td>
+                <td>@employee.Phone</td>
+                <td>@employee.Age</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(employee.ImagePath))
+                    {
+                        <img src="@employee.ImagePath" alt="Employee Image" style="max-width: 50px; max-height: 50px;" />
+                    }
+                </td>
+                <td>@employee.Department?.Name</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@employee.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@employee.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@employee.ID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -13,6 +13,26 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "D:\\Projects\\EmpDeptSys\\EmpDeptSys\\wwwroot\\images\\1337371.png",
+      "PackagePath": "staticwebassets\\images\\1337371.png"
+    },
+    {
+      "Id": "D:\\Projects\\EmpDeptSys\\EmpDeptSys\\wwwroot\\images\\1dc22d3fa35ccbc68fe864453729d235.jpg",
+      "PackagePath": "staticwebassets\\images\\1dc22d3fa35ccbc68fe864453729d235.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\EmpDeptSys\\EmpDeptSys\\wwwroot\\images\\a6a3b33c-41f9-4c48-960c-d0932f28c151.jpg",
+      "PackagePath": "staticwebassets\\images\\a6a3b33c-41f9-4c48-960c-d0932f28c151.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\EmpDeptSys\\EmpDeptSys\\wwwroot\\images\\e207a02c-653a-4333-b75b-d695115e434b.jpg",
+      "PackagePath": "staticwebassets\\images\\e207a02c-653a-4333-b75b-d695115e434b.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\EmpDeptSys\\EmpDeptSys\\wwwroot\\images\\lucy-space-suit-david-cyberpunk-edgerunners-2k-wallpaper-uhdpaper.com-685@1@i.jpg",
+      "PackagePath": "staticwebassets\\images\\lucy-space-suit-david-cyberpunk-edgerunners-2k-wallpaper-uhdpaper.com-685@1@i.jpg"
+    },
+    {
       "Id": "D:\\Projects\\EmpDeptSys\\EmpDeptSys\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

@@ -258,3 +258,4 @@ D:\Projects\EmpDeptSys\EmpDeptSys\bin\Debug\net8.0\runtimes\win\lib\net7.0\Micro
 D:\Projects\EmpDeptSys\EmpDeptSys\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
 D:\Projects\EmpDeptSys\EmpDeptSys\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
 D:\Projects\EmpDeptSys\EmpDeptSys\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
+D:\Projects\EmpDeptSys\EmpDeptSys\obj\Debug\net8.0\EmpDeptSys.sourcelink.json

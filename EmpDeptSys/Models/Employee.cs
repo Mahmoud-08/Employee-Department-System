@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EmpDeptSys.Models
 {
@@ -15,12 +16,12 @@ namespace EmpDeptSys.Models
         [Range(18, 65)]
         public int Age { get; set; }
 
-        public string Image { get; set; }
+        public string? ImagePath { get; set; }
 
-        // Foreign key to the Department table
+        [Required]
         public int DepartmentId { get; set; }
 
-        // Navigation property for the associated Department
-        public Department Department { get; set; }
+        [ForeignKey("DepartmentId")]
+        public Department? Department { get; set; }
     }
 }

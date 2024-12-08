@@ -20,26 +20,28 @@ namespace EmpDeptSys.Controllers
         {
             return View(await _context.Departments.ToListAsync());
         }
-
         // GET Details
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
 
-            var department = await _context.Departments.FirstOrDefaultAsync(m => m.ID == id);
+            var department = await _context.Departments
+                .Include(d => d.Employees) 
+                .FirstOrDefaultAsync(m => m.ID == id);
+
             if (department == null) return NotFound();
 
             return View(department);
         }
 
-        // GET: Create Department
+        // GET Create 
         public IActionResult Create()
         {
             var department = new Department();
             return View(department);
         }
 
-        // POST: Create Department
+        // POST Create 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Department department)
@@ -64,7 +66,7 @@ namespace EmpDeptSys.Controllers
             return View(department);
         }
 
-        // POST: Edit Department
+        // POST Edit 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Phone,Age")] Department department)
@@ -89,6 +91,8 @@ namespace EmpDeptSys.Controllers
             }
             return View(department);
         }
+
+
 
 
         // GET Delete

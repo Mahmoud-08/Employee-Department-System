@@ -17,17 +17,22 @@ namespace Employee_and_Department_Management_System.Controllers
         }
 
         // GET Employee
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Employees.ToListAsync());
+            var employees = _context.Employees.Include(e => e.Department).ToList();
+            return View(employees);
         }
+
 
         // GET Details
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
 
-            var employee = await _context.Employees.FirstOrDefaultAsync(m => m.ID == id);
+            var employee = await _context.Employees
+                .Include(e => e.Department)  
+                .FirstOrDefaultAsync(m => m.ID == id);
+
             if (employee == null) return NotFound();
 
             return View(employee);
@@ -38,47 +43,38 @@ namespace Employee_and_Department_Management_System.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            // Fetch the departments from the database
-            var departments = _context.Departments.ToList(); // Ensure _context is your DbContext instance
-            if (departments != null && departments.Any())
-            {
-                ViewData["Departments"] = departments; // Pass the list of departments to the view
-            }
-            else
-            {
-                ViewData["Departments"] = new List<Department>(); // Handle cases where no departments exist
-            }
-
-            return View(); // Render the Create.cshtml view
+            var departments = _context.Departments.ToList();
+            ViewData["Departments"] = departments;
+            return View();
         }
-
 
         // POST Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Employee employee)
+        public async Task<IActionResult> Create(Employee employee, IFormFile ImageFile)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                if (ImageFile != null && ImageFile.Length > 0)
                 {
-                    Console.WriteLine(error.ErrorMessage); // Log validation errors
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(ImageFile.FileName);
+                    string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await ImageFile.CopyToAsync(stream);
+                    }
+
+                    employee.ImagePath = "/images/" + fileName;
                 }
-                return View(employee);
-            }
 
-            try
-            {
-                _context.Add(employee);
+                _context.Employees.Add(employee);
                 await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}"); // Log exception message
-                return View(employee); // Return the view with the employee to try again
+                return RedirectToAction(nameof(Index));
             }
 
-            return RedirectToAction(nameof(Index));
+            ViewData["Departments"] = _context.Departments.ToList();
+            return View(employee);
         }
 
 
@@ -88,21 +84,38 @@ namespace Employee_and_Department_Management_System.Controllers
         {
             if (id == null) return NotFound();
 
-            var employee = await _context.Employees.FindAsync(id);
+            var employee = await _context.Employees
+                .Include(e => e.Department)
+                .FirstOrDefaultAsync(e => e.ID == id);
+
             if (employee == null) return NotFound();
 
+            ViewBag.DepartmentId = new SelectList(await _context.Departments.ToListAsync(), "ID", "Name", employee.DepartmentId);
             return View(employee);
         }
 
-        // POST Edit
+        //Post Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Phone,Age,Image")] Employee employee)
+        public async Task<IActionResult> Edit(int id, Employee employee, IFormFile ImageFile)
         {
-            if (id != employee.ID) return NotFound();
+            if (id != employee.ID)
+                return NotFound();
 
             if (ModelState.IsValid)
             {
+                if (ImageFile != null)
+                {
+                    var fileName = Path.GetFileName(ImageFile.FileName);
+                    var filePath = Path.Combine("wwwroot/images", fileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await ImageFile.CopyToAsync(stream);
+                    }
+
+                    employee.ImagePath = $"/images/{fileName}";
+                }
+
                 try
                 {
                     _context.Update(employee);
@@ -110,24 +123,34 @@ namespace Employee_and_Department_Management_System.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmployeeExists(employee.ID)) return NotFound();
-                    throw;
+                    if (!EmployeeExists(employee.ID))
+                        return NotFound();
+                    else
+                        throw;
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewBag.DepartmentId = new SelectList(await _context.Departments.ToListAsync(), "ID", "Name", employee.DepartmentId);
             return View(employee);
         }
 
-        // GET Delete 
+
+        // GET Delete
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
 
-            var employee = await _context.Employees.FirstOrDefaultAsync(m => m.ID == id);
+            var employee = await _context.Employees
+                .Include(e => e.Department)  
+                .FirstOrDefaultAsync(m => m.ID == id);
+
             if (employee == null) return NotFound();
 
             return View(employee);
         }
+
 
         // POST Delete
         [HttpPost, ActionName("Delete")]
