@@ -20,6 +20,7 @@ namespace EmpDeptSys.Controllers
         {
             return View(await _context.Departments.ToListAsync());
         }
+
         // GET Details
         public async Task<IActionResult> Details(int? id)
         {
@@ -91,8 +92,6 @@ namespace EmpDeptSys.Controllers
             }
             return View(department);
         }
-
-
 
 
         // GET Delete

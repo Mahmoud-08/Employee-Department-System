@@ -77,8 +77,6 @@ namespace Employee_and_Department_Management_System.Controllers
             return View(employee);
         }
 
-
-
         // GET Edit
         public async Task<IActionResult> Edit(int? id)
         {
