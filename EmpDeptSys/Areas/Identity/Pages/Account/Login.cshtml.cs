@@ -46,7 +46,6 @@ namespace EmpDeptSys.Areas.Identity.Pages.Account
 
             if (result.Succeeded)
             {
-                // Redirect to the home page or admin dashboard
                 return RedirectToAction("Dashboard", "Home");
 
             }

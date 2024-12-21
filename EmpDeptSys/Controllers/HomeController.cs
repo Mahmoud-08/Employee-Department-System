@@ -34,10 +34,10 @@ namespace EmpDeptSys.Controllers
             return View();
         }
 
-        // New Dashboard Action
+        // Dashboard Action
         public IActionResult Dashboard()
         {
-            return View(); // This will render the Dashboard.cshtml view in /Views/Home
+            return View(); 
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

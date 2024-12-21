@@ -30,7 +30,7 @@ namespace Employee_and_Department_Management_System.Controllers
             if (id == null) return NotFound();
 
             var employee = await _context.Employees
-                .Include(e => e.Department)  
+                .Include(e => e.Department)
                 .FirstOrDefaultAsync(m => m.ID == id);
 
             if (employee == null) return NotFound();
@@ -141,7 +141,7 @@ namespace Employee_and_Department_Management_System.Controllers
             if (id == null) return NotFound();
 
             var employee = await _context.Employees
-                .Include(e => e.Department)  
+                .Include(e => e.Department)
                 .FirstOrDefaultAsync(m => m.ID == id);
 
             if (employee == null) return NotFound();
@@ -165,5 +165,17 @@ namespace Employee_and_Department_Management_System.Controllers
         {
             return _context.Employees.Any(e => e.ID == id);
         }
+
+        // GET: Employee/Search - Search for employees based on the name
+        public IActionResult Search(string searchQuery)
+        {
+            var employees = _context.Employees
+                .Include(e => e.Department) // load the Department 
+                .Where(e => e.Name.Contains(searchQuery)) // Filter employees by name
+                .ToList();
+
+            return PartialView("SearchedEmp", employees); // Return the partial view with filtered employees
+        }
+
     }
 }

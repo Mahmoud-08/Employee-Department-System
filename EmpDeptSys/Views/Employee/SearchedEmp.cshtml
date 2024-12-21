@@ -1,0 +1,22 @@
+﻿@model IEnumerable<EmpDeptSys.Models.Employee>
+
+@foreach (var employee in Model)
+{
+    <tr>
+        <td>
+            @if (!string.IsNullOrEmpty(employee.ImagePath))
+            {
+                <img src="@employee.ImagePath" alt="Employee Image" style="max-width: 50px; max-height: 50px;" />
+            }
+        </td>
+        <td>@employee.Name</td>
+        <td>@employee.Phone</td>
+        <td>@employee.Age</td>
+        <td>@employee.Department?.Name</td>
+        <td>
+            <a href="/Employee/Details/@employee.ID" class="btn btn-warning btn-sm">Details</a>
+            <a href="/Employee/Edit/@employee.ID" class="btn btn-primary btn-sm">Edit</a>
+            <a href="/Employee/Delete/@employee.ID" class="btn btn-danger btn-sm">Delete</a>
+        </td>
+    </tr>
+}
